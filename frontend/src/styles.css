@@ -1,0 +1,31 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: Roboto;
+  src: url(/src/assets/fonts/Roboto/Roboto-Regular.ttf);
+}
+
+body {
+  background-color: rgba(248,249,250, 1) !important;
+}
+
+.container-offset {
+  padding-top: 70px;
+}
+
+.breadcrumb-offset {
+  padding-top: 60px;
+}
+
+p, a, h1, label {
+  font-family: Roboto;
+}
+
+
+html, body {
+  min-height: 100% !important;
+  height: 100% !important;
+}
+
+p {
+  margin: 0px;
+}

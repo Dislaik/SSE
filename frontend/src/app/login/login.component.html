@@ -1,0 +1,27 @@
+<div class="background-login">
+  <div class="container shadow card-signin mt-0">
+    <form class="form-signin" #f="ngForm" (ngSubmit)="onLogin()" novalidate>
+        <div class="text-center mb-4">
+            <img class="mb-4" src="../../assets/img/logo_ucm_marca.png" alt="" height="80">
+            <div *ngIf="showError" class="alert alert-danger mt-3">{{textError}}</div>
+        </div>
+    
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control shadow-none" name="username" id="floatingInputUsername" placeholder="Usuario" required
+            [(ngModel)]="username">
+            <label for="floatingInput">Usuario</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control shadow-none"  name="password" id="floatingPassword" placeholder="Contraseña"
+            [(ngModel)]="password">
+            <label for="floatingPassword">Contraseña</label>
+        </div>
+        <p class="text-end"><a [routerLink]="['/register']">¿Olvidaste tu contraseña?</a></p>
+        <div class="d-grid gap-2 mt-3">
+            <button class="btn btn-primary">
+            <i class="fas fa-sign-in-alt"></i> Iniciar sesión
+            </button>
+        </div>
+    </form>
+  </div>
+</div>

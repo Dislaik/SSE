@@ -1,0 +1,22 @@
+
+.background-login {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 100px;
+  background: url(/assets/img/ucm_background.jpg) no-repeat fixed center !important;
+}
+
+.card-signin {
+  width: 100%;
+  max-width: 350px;
+  padding: 15px;
+  margin-top: 250px;
+  background-color: white;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 420px;
+  padding: 15px;
+  margin: 0 auto;
+}

@@ -1,0 +1,53 @@
+
+  <nav class="shadow sidebar-stick fixed-top d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary fullheight" style="width: 280px; height: 100%;">
+    <div class="text-center">
+      <a [routerLink]="['/']" class="align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <img src="../../assets/img/logo_ucm_marca.png" alt="" height="80">
+      </a>
+    </div>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li>
+        <a [routerLink]="['/']" [ngClass]="currentPage == 'home' ? 'nav-link active' : 'nav-link link-body-emphasis' ">
+          <i class="bi bi-house pe-none me-2"></i>
+          Inicio
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/create-ticket']" [ngClass]="currentPage == 'create-ticket' ? 'nav-link active' : 'nav-link link-body-emphasis' ">
+          <i class="bi bi-plus-circle pe-none me-2"></i>
+          Crear solicitud
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/history-tickets']" [ngClass]="currentPage == 'history-tickets' ? 'nav-link active' : 'nav-link link-body-emphasis' ">
+          <i class="bi bi-list pe-none me-2"></i>
+          Historial de solicitudes
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/tickets-catalog']" [ngClass]="currentPage == 'tickets-catalog' ? 'nav-link active' : 'nav-link link-body-emphasis' ">
+          <i class="bi bi-archive pe-none me-2"></i>
+          Catálogo de solicitudes
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/frequently-questions']" [ngClass]="currentPage == 'frequently-questions' ? 'nav-link active' : 'nav-link link-body-emphasis' ">
+          <i class="bi bi-question-circle pe-none me-2"></i>
+          Preguntas frecuentes
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+      <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-person-circle me-2"></i>
+        <strong class="text-wrap" style="max-width: 280px;">{{firstName}} {{lastName}}</strong>
+      </a>
+      <ul class="dropdown-menu text-small shadow">
+        <li><a class="dropdown-item" href="#">Configuración</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" [routerLink]="['/login']" (click)="ngOnLogOut()">Cerrar sesión</a></li>
+      </ul>
+    </div>
+  </nav>
