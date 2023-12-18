@@ -14,6 +14,7 @@ export class SidebarComponent implements OnInit{
 
   firstName: string;
   lastName: string;
+  userRole: string;
 
   constructor(
     private tokenService: TokenService
@@ -25,6 +26,7 @@ export class SidebarComponent implements OnInit{
     const tokenData = jwtDecode(this.tokenService.getToken())
     this.firstName = tokenData["first_name"];
     this.lastName = tokenData["last_name"];
+    this.userRole = tokenData["role"][0].authority
   }
 
 

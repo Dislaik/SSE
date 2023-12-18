@@ -16,6 +16,8 @@ import { TicketsCatalogComponent } from './tickets-catalog/tickets-catalog.compo
 import { FrequentlyQuestionsComponent } from './frequently-questions/frequently-questions.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { TokenInterceptor } from './interceptor/token.interceptor';
+import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
+import { TicketsComponent } from './tickets/tickets.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { TokenInterceptor } from './interceptor/token.interceptor';
     HistoryTicketsComponent,
     TicketsCatalogComponent,
     FrequentlyQuestionsComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    TicketDetailsComponent,
+    TicketsComponent
   ],
   imports: [
     BrowserModule,

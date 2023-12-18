@@ -9,19 +9,23 @@ import { Ticket } from '../entity/ticket';
 })
 export class TicketService {
 
-  ticketURL = "http://localhost:8080/ticket";
+  URL = "http://localhost:8080/ticket";
 
   constructor(private httpClient: HttpClient) { }
   
-  public findAll(): Observable<Ticket[]> {
-    return this.httpClient.get<Ticket[]>(this.ticketURL)
+  public getAll(): Observable<Ticket[]> {
+    return this.httpClient.get<Ticket[]>(this.URL)
+  }
+
+  public getById(id: number): Observable<Ticket> {
+    return this.httpClient.get<Ticket>(this.URL + '/by-id/' + id)
   }
 
   public getByUserId(id: number): Observable<Ticket[]> {
-    return this.httpClient.get<Ticket[]>(this.ticketURL + '/by-user/' + id)
+    return this.httpClient.get<Ticket[]>(this.URL + '/by-user-id/' + id)
   }
 
-  public create(ticketForm: TicketForm): Observable<any> {
-    return this.httpClient.post<any>(this.ticketURL, ticketForm)
+  public create(ticketForm: TicketForm): Observable<Ticket> {
+    return this.httpClient.post<Ticket>(this.URL, ticketForm)
   }
 }

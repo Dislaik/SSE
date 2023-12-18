@@ -13,10 +13,16 @@
           Inicio
         </a>
       </li>
-      <li>
+      <li *ngIf="userRole == 'user'">
         <a [routerLink]="['/create-ticket']" [ngClass]="currentPage == 'create-ticket' ? 'nav-link active' : 'nav-link link-body-emphasis' ">
           <i class="bi bi-plus-circle pe-none me-2"></i>
           Crear solicitud
+        </a>
+      </li>
+      <li *ngIf="userRole == 'admin'">
+        <a [routerLink]="['/tickets']" [ngClass]="currentPage == 'tickets' ? 'nav-link active' : 'nav-link link-body-emphasis' ">
+          <i class="bi bi-plus-circle pe-none me-2"></i>
+          Solicitudes
         </a>
       </li>
       <li>
@@ -25,7 +31,7 @@
           Historial de solicitudes
         </a>
       </li>
-      <li>
+      <li *ngIf="userRole == 'user'">
         <a [routerLink]="['/tickets-catalog']" [ngClass]="currentPage == 'tickets-catalog' ? 'nav-link active' : 'nav-link link-body-emphasis' ">
           <i class="bi bi-archive pe-none me-2"></i>
           Catálogo de solicitudes

@@ -1,6 +1,3 @@
-import { TicketCategory } from "../entity/ticket-category";
-import { TicketSubcategory } from "../entity/ticket-subcategory";
-
 export class TicketForm {
   username: string;
   title: string;

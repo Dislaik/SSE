@@ -6,6 +6,20 @@
     <h1>{{title}}</h1>
   </div>
   <div class="mt-3">
-    <p>sdasd</p>
+    <div class="align-items-center p-3 mt-3 bg-white rounded shadow-sm">
+
+      <div *ngFor="let category of ticketCategoryList" class=" mb-3">
+        <h4>{{category.category}}</h4>
+
+        <div class="row">
+          <div *ngFor="let subcategory of category.subcategory" class="col-2 text-center">
+            <div class="row">
+              <i class="bi bi-box fs-1"></i>
+            </div>
+            {{subcategory.subcategory}}
+          </div>
+        </div>
+        
+    </div>
   </div>
 </div>

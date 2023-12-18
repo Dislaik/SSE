@@ -61,6 +61,7 @@ export class HistoryTicketsComponent implements OnInit {
 
 
   ngOnTicketDetails(ticket): void {
-    console.log(ticket);
+    console.log(ticket.value.id);
+    this.router.navigate(['/ticket', ticket.value.id]);
   }
 }

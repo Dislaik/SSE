@@ -54,8 +54,8 @@ public class TicketController {
         return new ResponseEntity(ticketService.getById(id), HttpStatus.OK);
     }
 
-    @GetMapping("by-user/{id}")
-    public ResponseEntity<List<Ticket>> getByUser(@PathVariable Integer id) {
+    @GetMapping("by-user-id/{id}")
+    public ResponseEntity<List<Ticket>> getByUserId(@PathVariable Integer id) {
         try {
 
             return new ResponseEntity(ticketService.getByUserId(id), HttpStatus.OK);
@@ -83,7 +83,6 @@ public class TicketController {
                     null
 
             );
-            System.out.println(localDate);
 
             ticketService.save(ticket);
 

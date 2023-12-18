@@ -20,6 +20,5 @@ export class BreadcrumbComponent implements OnInit{
 
   ngOnInit(): void {
     this.breadcrumbPages = JSON.parse(this.listPages);
-    console.log(this.titlePage)
   }
 }

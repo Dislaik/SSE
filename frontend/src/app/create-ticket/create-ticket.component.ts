@@ -6,6 +6,9 @@ import { TicketForm } from '../dto/ticket-form';
 import { TicketCategory } from '../entity/ticket-category';
 import { NotifierService } from 'angular-notifier';
 import { jwtDecode } from 'jwt-decode';
+import { TicketCategoryService } from '../service/ticket-category.service';
+import { TicketSubcategory } from '../entity/ticket-subcategory';
+import { TicketSubcategoryService } from '../service/ticket-subcategory.service';
 
 @Component({
   selector: 'app-create-ticket',
@@ -23,11 +26,15 @@ export class CreateTicketComponent implements OnInit{
   ticketCategory: number;
   ticketSubcategory: number;
   ticketDescription: string;
+  ticketCategoryList: TicketCategory[];
+  ticketSubcategoryList: TicketSubcategory[];
 
   constructor(
     private router: Router,
     private tokenService: TokenService,
     private ticketService: TicketService,
+    private ticketCategoryService: TicketCategoryService,
+    private ticketSubcategoryService: TicketSubcategoryService,
     private notifierService: NotifierService
   ) {
     this.notifier = notifierService;
@@ -47,6 +54,25 @@ export class CreateTicketComponent implements OnInit{
 
       this.ticketCategory = 1;
       this.ticketSubcategory = 1;
+
+      this.ticketCategoryService.getAll().subscribe(
+        data => {
+          this.ticketCategoryList = data;
+        },
+        err => {
+          this.notifier.notify('error', err.error);
+        }
+      );
+
+      this.ticketSubcategoryService.getAll().subscribe(
+        data => {
+          this.ticketSubcategoryList = data.filter(item => item.category.id == this.ticketSubcategory)
+        },
+        err => {
+          this.notifier.notify('error', err.error);
+        }
+      )
+
     } else {
       this.router.navigate(['/login']);
     }
@@ -67,10 +93,26 @@ export class CreateTicketComponent implements OnInit{
         this.ticketSubcategory = 1;
       },
       err => {
-        console.log(err)
         this.notifier.notify('error', err.error);
       }
     )
+  }
+
+  ngOnChange(target) {
+
+    console.log(target.value)
+
+    this.ticketSubcategoryService.getAll().subscribe(
+      data => {
+
+        this.ticketSubcategoryList = data.filter(item => item.category.id == target.value)
+        this.ticketSubcategory = this.ticketSubcategoryList[0].id;
+      },
+      err => {
+        this.notifier.notify('error', err.error);
+      }
+    )
+
   }
 
 }

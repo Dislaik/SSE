@@ -15,7 +15,7 @@ public class TicketSubcategoryService {
     @Autowired
     TicketSubcategoryRepository ticketSubcategoryRepository;
 
-    public List<TicketSubcategory> findAll() {
+    public List<TicketSubcategory> getAll() {
         return ticketSubcategoryRepository.findAll();
     }
 
