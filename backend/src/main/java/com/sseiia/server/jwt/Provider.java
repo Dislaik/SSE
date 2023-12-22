@@ -29,7 +29,7 @@ public class Provider {
 
     public String generateToken(Authentication authentication) {
         PrincipalUser principalUser = (PrincipalUser) authentication.getPrincipal();
-        User user = userService.findByUsername(principalUser.getUsername()).get();
+        User user = userService.getByUsername(principalUser.getUsername()).get();
 
         return Jwts.builder().setSubject(principalUser.getUsername())
                 .claim("id", user.getId())

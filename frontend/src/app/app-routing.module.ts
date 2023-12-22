@@ -8,14 +8,19 @@ import { TicketsCatalogComponent } from './tickets-catalog/tickets-catalog.compo
 import { FrequentlyQuestionsComponent } from './frequently-questions/frequently-questions.component';
 import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
 import { TicketsComponent } from './tickets/tickets.component';
+import { UsersComponent } from './users/users.component';
+import { LogsComponent } from './logs/logs.component';
 
 const routes: Routes = [
   {path: '', component: IndexComponent},
   {path: 'login', component: LoginComponent},
   {path: 'create-ticket', component: CreateTicketComponent},
+  {path: 'create-ticket/:category:subcategory', component: CreateTicketComponent},
   {path: 'history-tickets', component: HistoryTicketsComponent},
   {path: 'tickets', component: TicketsComponent},
   {path: 'ticket/:id', component: TicketDetailsComponent},
+  {path: 'users', component: UsersComponent},
+  {path: 'logs', component: LogsComponent},
   {path: 'tickets-catalog', component: TicketsCatalogComponent},
   {path: 'frequently-questions', component: FrequentlyQuestionsComponent},
   {path: '**', redirectTo: '', pathMatch: 'full'}

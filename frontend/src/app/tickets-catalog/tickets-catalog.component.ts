@@ -73,4 +73,9 @@ export class TicketsCatalogComponent implements OnInit{
     }
   }
 
+  routeWithData(category: number, subcategory: number): void {
+    this.router.navigate(['/create-ticket', {category: category, subcategory: subcategory}]);
+    console.log(category, subcategory)
+  }
+
 }

@@ -51,7 +51,7 @@ public class AuthController {
             return new ResponseEntity("Uknown error", HttpStatus.BAD_REQUEST);
         }
 
-        String[] runSplit = registerUser.getRun().split("-");
+        String[] runSplit = registerUser.getUsername().split("-");
         String username = runSplit[0].replace(".", "");
 
         if (userService.existsByUsername(username)) {

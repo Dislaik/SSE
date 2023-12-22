@@ -19,13 +19,25 @@
           Crear solicitud
         </a>
       </li>
-      <li *ngIf="userRole == 'admin'">
+      <li *ngIf="userRole == 'admin' || userRole == 'superadmin'">
         <a [routerLink]="['/tickets']" [ngClass]="currentPage == 'tickets' ? 'nav-link active' : 'nav-link link-body-emphasis' ">
           <i class="bi bi-plus-circle pe-none me-2"></i>
           Solicitudes
         </a>
       </li>
-      <li>
+      <li *ngIf="userRole == 'superadmin'">
+        <a [routerLink]="['/users']" [ngClass]="currentPage == 'users' ? 'nav-link active' : 'nav-link link-body-emphasis' ">
+          <i class="bi bi-person-add pe-none me-2"></i>
+          Usuarios
+        </a>
+      </li>
+      <li *ngIf="userRole == 'superadmin'">
+        <a [routerLink]="['/logs']" [ngClass]="currentPage == 'logs' ? 'nav-link active' : 'nav-link link-body-emphasis' ">
+          <i class="bi bi-book pe-none me-2"></i>
+          Registros
+        </a>
+      </li>
+      <li *ngIf="userRole == 'user'">
         <a [routerLink]="['/history-tickets']" [ngClass]="currentPage == 'history-tickets' ? 'nav-link active' : 'nav-link link-body-emphasis' ">
           <i class="bi bi-list pe-none me-2"></i>
           Historial de solicitudes
@@ -51,8 +63,6 @@
         <strong class="text-wrap" style="max-width: 280px;">{{firstName}} {{lastName}}</strong>
       </a>
       <ul class="dropdown-menu text-small shadow">
-        <li><a class="dropdown-item" href="#">Configuración</a></li>
-        <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" [routerLink]="['/login']" (click)="ngOnLogOut()">Cerrar sesión</a></li>
       </ul>
     </div>

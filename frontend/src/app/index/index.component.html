@@ -2,19 +2,16 @@
 <app-navbar></app-navbar>
 <app-breadcrumb [listPages]="allPages" [titlePage]="title"></app-breadcrumb>
 <div class="float-start container">
-  <div class="mt-2">
-    <h1>Inicio</h1>
-  </div>
+  <h1>Inicio</h1>
 
   <div class="d-flex align-items-center p-3 my-3 text-white bg-primary rounded shadow-sm">
     <i class="bi bi-house-fill me-3"></i>
-
     <div class="lh-1">
       <p>Bienvenido {{firstName}} {{lastName}}!</p>
     </div>
   </div>
 
-  <div class="card p-4 pt-2 rounded-0 shadow-sm border-0">
+  <div class="card p-4 pt-2 rounded-0 shadow-sm border-0 mb-5">
     <div class="row mt-3">
       <div class="col-8">
         <div class="card">
@@ -23,9 +20,32 @@
           </div>
           <div class="card-body entry-items">
             <div class="row g-3 mb-3">
-
+              <div *ngFor="let i of lastTickets | keyvalue" class="m-2 row">
+                <div class="col-1 text-sm">
+                  <p>{{i.value['id']}}</p>
+                </div>
+                <div class="col-4 text-sm">
+                  <p>{{i.value['title']}}</p>
+                </div>
+                <div class="col-3 text-sm">
+                  <p>{{i.value['date']}}</p>
+                </div>
+                <div *ngIf="i.value['status'].id == 1" class="col-2 text-center text-sm">
+                  <p>Abierto</p>
+                </div>
+                <div *ngIf="i.value['status'].id == 2" class="col-2 text-center text-sm">
+                  <p>Cerrado</p>
+                </div>
+                <div *ngIf="i.value['status'].id == 3" class="col-2 text-center text-sm">
+                  <p>Resuelto</p>
+                </div>
+                <div class="col-2 text-center text-sm">
+                  <button type="button" class="btn btn-primary btn-sm" (click)="ngOnTicketDetails(i)">
+                    Ver detalles
+                  </button>
+                </div>
+              </div>
             </div>
-            
           </div>
         </div>
       </div>

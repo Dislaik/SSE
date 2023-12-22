@@ -2,13 +2,85 @@
 <app-navbar></app-navbar>
 <app-breadcrumb [listPages]="allPages" [titlePage]="title"></app-breadcrumb>
 <div class="float-start container">
-  <div class="mt-2">
-    <h1>{{title}}</h1>
-  </div>
+  <h1>{{title}}</h1>
   <div class="mt-3">
+
+    <div *ngIf="role == 'superadmin'" class="p-3 my-3 bg-white rounded shadow-sm">
+      <div class="row">
+        <div class="col-4">
+          <div class="mb-3 row">
+            <label for="inputQuestion" class="col-sm-3 col-form-label">Pregunta</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="inputQuestion" [(ngModel)]="inputQuestion">
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="mb-3 row">
+            <label for="inputAnswer" class="col-sm-3 col-form-label">Respuesta</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="inputAnswer" [(ngModel)]="inputAnswer">
+            </div>
+          </div>
+        </div>
+        <div class="col-4 text-end bottom-0 justify-content-end">
+          <button type="button" class="btn btn-success" (click)="ngOnAddQuestion()">Añadir pregunta</button>
+        </div>
+      </div>
+    </div>
+
     <div class="card p-4 pt-2 rounded-0 shadow-sm border-0">
+      <div class="row">
+        <div *ngFor="let i of questions" class="row mt-2">
+          <div class="col-6">
+            <p>{{i.question}}</p>
+          </div>
+          <div class="col-4">
+            <p>{{i.answer.answer}}</p>
+          </div>
+          <div *ngIf="role == 'superadmin'" class="col-2 text-end">
+            <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#UpdateQuestionModal" (click)="ngOnGetUserId(i)">
+              <p>Actualizar</p>
+            </button>
+            <button type="button" class="btn btn-danger btn-sm ms-2" (click)="ngOnDeleteQuestion(i)">Eliminar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 
+
+<!-- UPDATE USER-->
+<div class="modal fade" id="UpdateQuestionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Actualizar pregunta</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!--Nombres-->
+        <div class="mb-3 row">
+          <label for="inputUpdateQuestion" class="col-sm-4 col-form-label">Pregunta</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="inputUpdateQuestion" [(ngModel)]="inputUpdateQuestion">
+          </div>
+        </div>
+        <!--Apellidos-->
+        <div class="mb-3 row">
+          <label for="inputUpdateAnswer" class="col-sm-4 col-form-label">Respuesta</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="inputUpdateAnswer" [(ngModel)]="inputUpdateAnswer">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="ngOnClearUserInput()">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="ngOnUpdateQuestion()">Actualizar pregunta</button>
+      </div>
     </div>
   </div>
 </div>

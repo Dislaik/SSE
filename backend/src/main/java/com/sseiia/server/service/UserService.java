@@ -16,16 +16,16 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public List<User> findAll() {
+    public List<User> getAll() {
         return userRepository.findAll();
     }
-    public Optional<User> findById(Integer id) {
+    public Optional<User> getById(Integer id) {
         return userRepository.findById(id);
     }
-    public Optional<User> findByUsername(String username) {
+    public Optional<User> getByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-    public Optional<User> findByEmail(String email) {
+    public Optional<User> getByEmail(String email) {
         return userRepository.findByEmail(email);
     }
     public Boolean existsByUsername(String username) {

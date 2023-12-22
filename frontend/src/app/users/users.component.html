@@ -1,0 +1,231 @@
+<app-sidebar [currentPage]="page"></app-sidebar>
+<app-navbar></app-navbar>
+<app-breadcrumb [listPages]="allPages" [titlePage]="title"></app-breadcrumb>
+<div class="float-start container">
+  <h1>{{title}}</h1>
+  <div class="mt-3">
+    <div class="d-flex justify-content-end p-3 my-3 text-white bg-white rounded shadow-sm">
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#CreateUserModal">
+        Crear usuario
+      </button>
+    </div>
+    <div class="align-items-center p-3 my-3 bg-white rounded shadow-sm">
+
+      <div class="card mt-3 mb-3 height-list-tickets">
+        <div class="card-header">
+          <p>Usuarios</p>
+        </div>
+        <div class="card-body p-0">
+          <ul class="list-group rounded-0">
+            <div class="m-2 mb-0 row">
+              <div class="col-1">
+                <p>ID</p>
+              </div>
+              <div class="col-2">
+                <p>Usuario</p>
+              </div>
+              <div class="col-2">
+                <p>Nombre</p>
+              </div>
+              <div class="col-3">
+                <p>Email</p>
+              </div>
+              <div class="col-2">
+                <p>Tipo de usuario</p>
+              </div>
+              <div class="col-2 text-center">
+                <p>Opciones</p>
+              </div>
+            </div>
+
+            <hr class="mb-2 mt-2">
+
+            <div *ngFor="let i of paginationShowUsers | keyvalue" class="m-2 row">
+              <div class="col-1">
+                <p>{{i.value['id']}}</p>
+              </div>
+              <div class="col-2">
+                <p>{{i.value['username']}}</p>
+              </div>
+              <div class="col-2">
+                <p>{{i.value['firstName']}} {{i.value['lastName']}}</p>
+              </div>
+              <div class="col-3">
+                <p>{{i.value['email']}}</p>
+              </div>
+              <div *ngIf="i.value['role'].id == 1" class="col-2">
+                <p>Estudiante</p>
+              </div>
+              <div *ngIf="i.value['role'].id == 2" class="col-2">
+                <p>Personal Administrativo</p>
+              </div>
+              <div *ngIf="i.value['role'].id == 3" class="col-2">
+                <p>Administrador</p>
+              </div>
+              <div class="col-2 text-center">
+                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#UpdateUserModal" (click)="ngOnGetUserId(i)">
+                  <p>Actualizar</p>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm ms-2" (click)="ngOnUserDelete(i)">
+                  <p>Eliminar</p>
+                </button>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+      
+      <nav aria-label="..." class="d-flex flex-row-reverse">
+        <ul class="pagination">
+          <li *ngIf="pagination == 1; then thenPaginationBackBlock else elsePaginationBackBlock"></li>
+          <ng-template #thenPaginationBackBlock>
+              <button class="page-link shadow-none disabled" disabled><p>Anterior</p></button>
+          </ng-template>
+          <ng-template #elsePaginationBackBlock>
+            <button class="page-link shadow-none" (click)="ngOnPaginationBack()"><p>Anterior</p></button>
+          </ng-template>
+
+          <li *ngFor="let i of paginationList" class="page-item">
+              <span *ngIf="pagination == i; then thenPaginationItemBlock else elsePaginationItemBlock"></span>
+              <ng-template #thenPaginationItemBlock>
+                <button class="page-link shadow-none disabled" disabled><p>{{i}}</p></button>
+              </ng-template>
+              <ng-template #elsePaginationItemBlock>
+                <button class="page-link shadow-none" (click)="ngOnPaginationItem(i)"><p>{{i}}</p></button>
+              </ng-template>
+          </li>
+
+          <li *ngIf="this.paginationLengh != 10; then thenPaginationNextBlock else elsePaginationNextBlock"></li>
+          <ng-template #thenPaginationNextBlock>
+            <button class="page-link shadow-none disabled" disabled><p>Siguiente</p></button>
+          </ng-template>
+          <ng-template #elsePaginationNextBlock>
+            <button class="page-link shadow-none" (click)="ngOnPaginationNext()"><p>Siguiente</p></button>
+          </ng-template>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+<!--CREATE USER-->
+<div class="modal fade" id="CreateUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Crear usuario</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!--Usuario-->
+        <div class="mb-3 row">
+          <label for="inputUsername" class="col-sm-4 col-form-label">Usuario</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="inputUsername" [(ngModel)]="inputUsername">
+          </div>
+        </div>
+        <!--Contraseña-->
+        <div class="mb-3 row">
+          <label for="inputPassword" class="col-sm-4 col-form-label">Contraseña</label>
+          <div class="col-sm-8">
+            <input type="password" class="form-control" id="inputPassword" [(ngModel)]="inputPassword">
+          </div>
+        </div>
+        <!--Email-->
+        <div class="mb-3 row">
+          <label for="inputEmail" class="col-sm-4 col-form-label">Email</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="inputEmail" [(ngModel)]="inputEmail">
+          </div>
+        </div>
+        <!--Nombres-->
+        <div class="mb-3 row">
+          <label for="inputFirstName" class="col-sm-4 col-form-label">Nombres</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="inputFirstName" [(ngModel)]="inputFirstName">
+          </div>
+        </div>
+        <!--Apellidos-->
+        <div class="mb-3 row">
+          <label for="inputLastName" class="col-sm-4 col-form-label">Apellidos</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="inputLastName" [(ngModel)]="inputLastName">
+          </div>
+        </div>
+        <!--Roles-->
+        <div class="row mb-3">
+          <label for="inputRole" class="col-sm-4 col-form-label">Tipo de usuario</label>
+          <div class="col-sm-8">
+            <select class="form-select shadow-none" id="inputRole" [(ngModel)]="inputRole">
+              <option *ngFor="let i of roleList" value={{i.id}}>{{i.role}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="ngOnClearUserInput()">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="ngOnUserCreate()">Crear usuario</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- UPDATE USER-->
+<div class="modal fade" id="UpdateUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Actualizar usuario</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!--Usuario-->
+        <div class="mb-3 row">
+          <label for="inputUsername" class="col-sm-4 col-form-label">Usuario</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="inputUsername" [(ngModel)]="inputUsername">
+          </div>
+        </div>
+        <!--Contraseña-->
+        <div class="mb-3 row">
+          <label for="inputPassword" class="col-sm-4 col-form-label">Contraseña</label>
+          <div class="col-sm-8">
+            <input type="password" class="form-control" id="inputPassword" [(ngModel)]="inputPassword">
+          </div>
+        </div>
+        <!--Email-->
+        <div class="mb-3 row">
+          <label for="inputEmail" class="col-sm-4 col-form-label">Email</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="inputEmail" [(ngModel)]="inputEmail">
+          </div>
+        </div>
+        <!--Nombres-->
+        <div class="mb-3 row">
+          <label for="inputFirstName" class="col-sm-4 col-form-label">Nombres</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="inputFirstName" [(ngModel)]="inputFirstName">
+          </div>
+        </div>
+        <!--Apellidos-->
+        <div class="mb-3 row">
+          <label for="inputLastName" class="col-sm-4 col-form-label">Apellidos</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="inputLastName" [(ngModel)]="inputLastName">
+          </div>
+        </div>
+        <!--Roles-->
+        <div class="row mb-3">
+          <label for="inputRole" class="col-sm-4 col-form-label">Tipo de usuario</label>
+          <div class="col-sm-8">
+            <select class="form-select shadow-none" id="inputRole" [(ngModel)]="inputRole">
+              <option *ngFor="let i of roleList" value={{i.id}}>{{i.role}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="ngOnClearUserInput()">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="ngOnUserUpdate()">Actualizar usuario</button>
+      </div>
+    </div>
+  </div>
+</div>

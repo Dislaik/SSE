@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class RegisterUser {
     @NotBlank
-    private String run;
+    private String username;
     @NotBlank
     private String email;
     @NotBlank
@@ -16,14 +16,14 @@ public class RegisterUser {
     private String firstName;
     @NotBlank
     private String lastName;
-    private Set<String> role = new HashSet<>();
+    private Integer role;
 
-    public String getRun() {
-        return run;
+    public String getUsername() {
+        return username;
     }
 
-    public void setRun(String run) {
-        this.run = run;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -58,11 +58,11 @@ public class RegisterUser {
         this.lastName = lastName;
     }
 
-    public Set<String> getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public void setRole(Set<String> role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 }

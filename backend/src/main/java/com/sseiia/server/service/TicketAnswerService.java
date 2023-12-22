@@ -2,6 +2,7 @@ package com.sseiia.server.service;
 
 import com.sseiia.server.entity.TicketAnswer;
 import com.sseiia.server.entity.TicketCategory;
+import com.sseiia.server.entity.User;
 import com.sseiia.server.repository.TicketAnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,10 @@ public class TicketAnswerService {
 
     public Optional<List<TicketAnswer>> getByTicketId(Integer id) {
         return ticketAnswerRepository.findByTicketId(id);
+    }
+
+    public Optional<List<TicketAnswer>> getByUser(User user) {
+        return ticketAnswerRepository.findByUser(user);
     }
 
     public TicketAnswer save(TicketAnswer ticketAnswer) {

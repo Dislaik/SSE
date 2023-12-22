@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TokenService } from '../service/token.service';
 import { TicketService } from '../service/ticket.service';
 import { TicketForm } from '../dto/ticket-form';
@@ -9,6 +9,8 @@ import { jwtDecode } from 'jwt-decode';
 import { TicketCategoryService } from '../service/ticket-category.service';
 import { TicketSubcategory } from '../entity/ticket-subcategory';
 import { TicketSubcategoryService } from '../service/ticket-subcategory.service';
+import { LogService } from '../service/log.service';
+import { CreateLog } from '../dto/create-log';
 
 @Component({
   selector: 'app-create-ticket',
@@ -31,13 +33,20 @@ export class CreateTicketComponent implements OnInit{
 
   constructor(
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private tokenService: TokenService,
     private ticketService: TicketService,
     private ticketCategoryService: TicketCategoryService,
     private ticketSubcategoryService: TicketSubcategoryService,
+    private logService: LogService,
     private notifierService: NotifierService
   ) {
     this.notifier = notifierService;
+    this.activatedRoute.params.subscribe( params => {
+        this.ticketCategory = params['category'];
+        this.ticketSubcategory = params['subcategory']
+      }
+    );
   }
   
   ngOnInit(): void {
@@ -52,8 +61,8 @@ export class CreateTicketComponent implements OnInit{
       };
       this.allPages = JSON.stringify(pages);
 
-      this.ticketCategory = 1;
-      this.ticketSubcategory = 1;
+      this.ticketCategory = this.ticketCategory ? this.ticketCategory : 1;
+      this.ticketSubcategory = this.ticketSubcategory ? this.ticketSubcategory : 1;
 
       this.ticketCategoryService.getAll().subscribe(
         data => {
@@ -66,7 +75,7 @@ export class CreateTicketComponent implements OnInit{
 
       this.ticketSubcategoryService.getAll().subscribe(
         data => {
-          this.ticketSubcategoryList = data.filter(item => item.category.id == this.ticketSubcategory)
+          this.ticketSubcategoryList = data.filter(item => item.category.id == this.ticketCategory)
         },
         err => {
           this.notifier.notify('error', err.error);
@@ -91,11 +100,33 @@ export class CreateTicketComponent implements OnInit{
         this.ticketDescription = "";
         this.ticketCategory = 1;
         this.ticketSubcategory = 1;
+
+        this.router.navigate(['/']);
+
+        this.logService.create(new CreateLog("Se creo una solicitud", 1)).subscribe(
+          data => {
+            console.log(data)
+          },
+          err => {
+
+          }
+        );
+
+
+        /*this.ticketSubcategoryService.getAll().subscribe(
+          data => {
+            this.ticketSubcategoryList = data.filter(item => item.category.id == this.ticketCategory)
+          },
+          err => {
+            this.notifier.notify('error', err.error);
+          }
+        )*/
       },
       err => {
         this.notifier.notify('error', err.error);
       }
     )
+
   }
 
   ngOnChange(target) {

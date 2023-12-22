@@ -27,6 +27,9 @@ public class ServerApplication  implements CommandLineRunner {
     TicketSubcategoryRepository ticketSubcategoryRepository;
 
     @Autowired
+    LogTypeRepository logTypeRepository;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     public static void main(String[] args) {
@@ -97,6 +100,16 @@ public class ServerApplication  implements CommandLineRunner {
             ticketSubcategoryRepository.save(subcategory4_2);
             ticketSubcategoryRepository.save(subcategory4_3);
             ticketSubcategoryRepository.save(subcategory4_4);
+        }
+
+        if (logTypeRepository.findAll().isEmpty()) {
+            LogType logType1 = new LogType("created");
+            LogType logType2 = new LogType("updated");
+            LogType logType3 = new LogType("deleted");
+
+            logTypeRepository.save(logType1);
+            logTypeRepository.save(logType2);
+            logTypeRepository.save(logType3);
         }
     }
 

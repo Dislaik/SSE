@@ -1,14 +1,9 @@
 package com.sseiia.server.controller;
 
 import com.sseiia.server.dto.TicketForm;
-import com.sseiia.server.entity.Ticket;
-import com.sseiia.server.entity.TicketStatus;
-import com.sseiia.server.entity.TicketSubcategory;
-import com.sseiia.server.entity.User;
-import com.sseiia.server.service.TicketService;
-import com.sseiia.server.service.TicketStatusService;
-import com.sseiia.server.service.TicketSubcategoryService;
-import com.sseiia.server.service.UserService;
+import com.sseiia.server.dto.UpdateTicketStatus;
+import com.sseiia.server.entity.*;
+import com.sseiia.server.service.*;
 import com.sseiia.server.utils.Response;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +35,9 @@ public class TicketController {
     @Autowired
     TicketSubcategoryService ticketSubcategoryService;
 
+    @Autowired
+    TicketAnswerService ticketAnswerService;
+
     //GET
 
     @GetMapping("")
@@ -60,7 +58,7 @@ public class TicketController {
 
             return new ResponseEntity(ticketService.getByUserId(id), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity("asdas", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Ha ocurrido un error inesperado.", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -70,7 +68,7 @@ public class TicketController {
     public ResponseEntity<Ticket> create(@Valid @RequestBody TicketForm ticketForm) {
         try {
             LocalDateTime localDate = LocalDateTime.now();
-            User user = userService.findByUsername(ticketForm.getUsername()).get();
+            User user = userService.getByUsername(ticketForm.getUsername()).get();
             TicketStatus status = ticketStatusService.getByStatus("open").get();
             TicketSubcategory subcategory = ticketSubcategoryService.getById(ticketForm.getSubcategory()).get();
             Ticket ticket = new Ticket(
@@ -88,12 +86,44 @@ public class TicketController {
 
             return new ResponseEntity(ticket, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity("asdas", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Ha ocurrido un error inesperado.", HttpStatus.BAD_REQUEST);
         }
-
     }
 
     //UPDATE
+    @PutMapping("by-id/{id}")
+    public ResponseEntity<Ticket> setStatus(@PathVariable Integer id, @RequestBody UpdateTicketStatus updateTicketStatus) {
+        try {
+            Ticket ticket = ticketService.getById(id).get();
+            TicketStatus status = ticketStatusService.getById(updateTicketStatus.getStatusId()).get();
+
+            ticket.setStatus(status);
+
+            ticketService.save(ticket);
+
+            return new ResponseEntity(ticket, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity("Ha ocurrido un error inesperado.", HttpStatus.BAD_REQUEST);
+        }
+    }
 
     //DELETE
+
+    @DeleteMapping("by-id/{id}")
+    public ResponseEntity delete(@PathVariable Integer id) {
+        try {
+            Ticket ticket = ticketService.getById(id).get();
+            List<TicketAnswer> answers = ticketAnswerService.getByTicketId(id).get();
+
+            for (int i=0;i<answers.size();i++) {
+                ticketAnswerService.delete(answers.get(i));
+            }
+
+            ticketService.delete(ticket);
+
+            return new ResponseEntity(ticket, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity("Ha ocurrido un error inesperado.", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

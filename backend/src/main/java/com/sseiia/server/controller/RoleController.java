@@ -24,13 +24,13 @@ public class RoleController {
         return new ResponseEntity(roleService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("getById/{id}")
+    @GetMapping("by-id/{id}")
     public ResponseEntity<Role> getById(@PathVariable Integer id) {
 
         return new ResponseEntity(roleService.getById(id), HttpStatus.OK);
     }
 
-    @GetMapping("getByRole/{role}")
+    @GetMapping("by-role/{role}")
     public ResponseEntity<Role> getByRole(@PathVariable String role) {
 
         return new ResponseEntity(roleService.getByRole(role), HttpStatus.OK);

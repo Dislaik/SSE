@@ -17,6 +17,12 @@ export class TicketsComponent implements OnInit{
 
   tickets: Ticket[];
 
+  pagination: number;
+  paginationShowTickets: Ticket[];
+  paginationLengh: number;
+  paginationMax: number;
+  paginationList: number[];
+
   constructor(
     private router: Router,
     private tokenService: TokenService,
@@ -28,6 +34,7 @@ export class TicketsComponent implements OnInit{
 
     if (this.tokenService.getToken()) {
       const tokenData = jwtDecode(this.tokenService.getToken())
+      this.pagination = 1;
 
       this.page = "tickets";
       this.title = "Solicitudes";
@@ -41,11 +48,15 @@ export class TicketsComponent implements OnInit{
 
       this.ticketService.getAll().subscribe(
         data => {
-          this.tickets = data;
+          this.tickets = data.reverse();
           
           this.tickets.forEach(element => {
             element['date'] = this.formatDate(new Date(element.createdAt));
           });
+
+          this.mostrarPagina(this.tickets, this.pagination, 10)
+          this.paginationMax = this.obtenerPaginasTotales(this.tickets, 10)
+          this.paginationList = this.createRange(this.paginationMax);
           
         },
         err => {
@@ -62,7 +73,26 @@ export class TicketsComponent implements OnInit{
   }
 
   ngOnTicketDetails(ticket): void {
+    console.log(ticket.value.id);
     this.router.navigate(['/ticket', ticket.value.id]);
+  }
+
+  ngOnPaginationNext(): void {
+    this.pagination += 1;
+
+    this.mostrarPagina(this.tickets, this.pagination, 10)
+  }
+
+  ngOnPaginationBack(): void {
+    this.pagination -= 1;
+
+    this.mostrarPagina(this.tickets, this.pagination, 10)
+  }
+
+  ngOnPaginationItem(index: number): void {
+    this.mostrarPagina(this.tickets, index, 10)
+    this.pagination = index;
+    console.log(index);
   }
 
   formatDate(fecha: Date): string {
@@ -76,10 +106,27 @@ export class TicketsComponent implements OnInit{
     const mesFormateado = mes < 10 ? `0${mes}` : mes.toString();
     const horasFormateadas = horas < 10 ? `0${horas}` : horas.toString();
     const minutosFormateados = minutos < 10 ? `0${minutos}` : minutos.toString();
-  
-    // Formatear la fecha como "dd/mm/aaaa hh:mm"
+
     const fechaFormateada = `${diaFormateado}/${mesFormateado}/${año} ${horasFormateadas}:${minutosFormateados}`;
   
     return fechaFormateada;
+  }
+
+  mostrarPagina(list: Ticket[], page: number, elementByPage: number): void {
+    const start = (page - 1) * elementByPage;
+    const end = start + elementByPage;
+    
+    this.paginationShowTickets = list.slice(start, end);
+    this.paginationLengh = this.paginationShowTickets.length;
+  }
+
+  obtenerPaginasTotales(lista: Ticket[], elementosPorPagina: number): number {
+    return Math.ceil(lista.length / elementosPorPagina);
+  }
+
+  createRange(number){
+    // return new Array(number);
+    return new Array(number).fill(0)
+      .map((n, index) => index + 1);
   }
 }

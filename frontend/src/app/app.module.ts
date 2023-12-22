@@ -18,6 +18,8 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { TokenInterceptor } from './interceptor/token.interceptor';
 import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
 import { TicketsComponent } from './tickets/tickets.component';
+import { UsersComponent } from './users/users.component';
+import { LogsComponent } from './logs/logs.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { TicketsComponent } from './tickets/tickets.component';
     FrequentlyQuestionsComponent,
     BreadcrumbComponent,
     TicketDetailsComponent,
-    TicketsComponent
+    TicketsComponent,
+    UsersComponent,
+    LogsComponent
   ],
   imports: [
     BrowserModule,

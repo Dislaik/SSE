@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @font-face {
   font-family: Roboto;
-  src: url(/src/assets/fonts/Roboto/Roboto-Regular.ttf) format('ttf'),;
+  src: url(../src/assets/fonts/Roboto/Roboto-Regular.ttf);
   font-weight: normal;
   font-style: normal;
 }

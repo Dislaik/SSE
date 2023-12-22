@@ -21,6 +21,10 @@ export class TicketAnswerService {
     return this.httpClient.get<TicketAnswer[]>(this.URL + '/by-ticket-id/' + id)
   }
 
+  public getByUserId(id: number): Observable<TicketAnswer[]> {
+    return this.httpClient.get<TicketAnswer[]>(this.URL + '/by-user-id/' + id);
+  }
+
   public create(ticketAnswerForm: TicketAnswerForm): Observable<TicketAnswer> {
     return this.httpClient.post<TicketAnswer>(this.URL, ticketAnswerForm)
   }

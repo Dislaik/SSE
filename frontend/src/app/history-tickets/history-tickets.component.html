@@ -2,72 +2,92 @@
 <app-navbar></app-navbar>
 <app-breadcrumb [listPages]="allPages" [titlePage]="title"></app-breadcrumb>
 <div class="float-start container">
-  <div class="mt-2">
-    <h1>{{title}}</h1>
-  </div>
+  <h1>{{title}}</h1>
   <div class="mt-3">
-    <div class="align-items-center p-3 my-3 text-white bg-white rounded shadow-sm">
+    <div class="align-items-center p-3 my-3 bg-white rounded shadow-sm">
 
-      <div class="card mt-3 mb-3">
+      <div class="card mt-3 mb-3 height-list-tickets">
         <div class="card-header">
-          Solicitudes
+          <p>Solicitudes</p>
         </div>
         <div class="card-body p-0">
           <ul class="list-group rounded-0">
             <div class="m-2 mb-0 row">
               <div class="col-1">
-                ID
+                <p>ID</p>
               </div>
               <div class="col-4">
-                Título
+                <p>Título</p>
               </div>
               <div class="col-4">
-                Fecha de creación
+                <p>Fecha de creación</p>
               </div>
               <div class="col-1 text-center">
-                Estado
+                <p>Estado</p>
               </div>
               <div class="col-2 text-center">
-                Opciones
+                <p>Opciones</p>
               </div>
             </div>
+
             <hr class="mb-2 mt-2">
 
-            <div *ngFor="let i of tickets | keyvalue" class="m-2 row">
+            <div *ngFor="let i of paginationShowTickets | keyvalue" class="m-2 row">
               <div class="col-1">
-                {{i.value['id']}}
+                <p>{{i.value['id']}}</p>
               </div>
               <div class="col-4">
-                {{i.value['title']}}
+                <p>{{i.value['title']}}</p>
               </div>
               <div class="col-4">
-                {{i.value['createdAt']}}
+                <p>{{i.value['date']}}</p>
               </div>
-              <div class="col-1 text-center">
-                {{i.value['status'].status}}
+              <div *ngIf="i.value['status'].id == 1" class="col-1 text-center">
+                <p>Abierto</p>
+              </div>
+              <div *ngIf="i.value['status'].id == 2" class="col-1 text-center">
+                <p>Cerrado</p>
+              </div>
+              <div *ngIf="i.value['status'].id == 3" class="col-1 text-center">
+                <p>Resuelto</p>
               </div>
               <div class="col-2 text-center">
                 <button type="button" class="btn btn-primary btn-sm" (click)="ngOnTicketDetails(i)">
-                  Ver detalles
+                  <p>Ver detalles</p>
                 </button>
               </div>
             </div>
-            
           </ul>
-          
-          
         </div>
       </div>
       
       <nav aria-label="..." class="d-flex flex-row-reverse">
         <ul class="pagination">
-          <li class="page-item disabled">
-            <span class="page-link">Anterior</span>
+          <li *ngIf="pagination == 1; then thenPaginationBackBlock else elsePaginationBackBlock"></li>
+          <ng-template #thenPaginationBackBlock>
+              <button class="page-link shadow-none disabled" disabled><p>Anterior</p></button>
+          </ng-template>
+          <ng-template #elsePaginationBackBlock>
+            <button class="page-link shadow-none" (click)="ngOnPaginationBack()"><p>Anterior</p></button>
+          </ng-template>
+
+          <li *ngFor="let i of paginationList" class="page-item">
+              <span *ngIf="pagination == i; then thenPaginationItemBlock else elsePaginationItemBlock"></span>
+              <ng-template #thenPaginationItemBlock>
+                <button class="page-link shadow-none disabled" disabled><p>{{i}}</p></button>
+              </ng-template>
+              <ng-template #elsePaginationItemBlock>
+                <button class="page-link shadow-none" (click)="ngOnPaginationItem(i)"><p>{{i}}</p></button>
+              </ng-template>
           </li>
-          <li class="page-item active"><span class="page-link">1</span></li>
-          <li class="page-item" aria-current="page"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+
+          <li *ngIf="this.paginationLengh != 10; then thenPaginationNextBlock else elsePaginationNextBlock"></li>
+          <ng-template #thenPaginationNextBlock>
+            <button class="page-link shadow-none disabled" disabled><p>Siguiente</p></button>
+          </ng-template>
+          <ng-template #elsePaginationNextBlock>
+            <button class="page-link shadow-none" (click)="ngOnPaginationNext()"><p>Siguiente</p></button>
+          </ng-template>
         </ul>
       </nav>
 

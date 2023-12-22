@@ -6,3 +6,7 @@
   height: auto;
   width:100%;
 }
+
+.text-sm {
+  font-size: 0.8rem;
+}

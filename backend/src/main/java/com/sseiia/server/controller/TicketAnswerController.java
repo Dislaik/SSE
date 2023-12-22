@@ -37,6 +37,17 @@ public class TicketAnswerController {
         return new ResponseEntity(ticketAnswerService.getAll(), HttpStatus.OK);
     }
 
+    @GetMapping("by-user-id/{id}")
+    public ResponseEntity<List<TicketAnswer>> getByUserId(@PathVariable Integer id) {
+        try {
+            User user = userService.getById(id).get();
+
+            return new ResponseEntity(ticketAnswerService.getByUser(user), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity("Ha ocurrido un error inesperado.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("by-ticket-id/{id}")
     public ResponseEntity<List<TicketAnswer>> getByTicketId(@PathVariable Integer id) {
 
@@ -50,7 +61,7 @@ public class TicketAnswerController {
         try {
             LocalDateTime localDate = LocalDateTime.now();
             Ticket ticket = ticketService.getById(ticketAnswerForm.getTicketId()).get();
-            User user = userService.findByUsername(ticketAnswerForm.getUsername()).get();
+            User user = userService.getByUsername(ticketAnswerForm.getUsername()).get();
 
             TicketAnswer ticketAnswer = new TicketAnswer(
                     ticketAnswerForm.getAnswer(),
